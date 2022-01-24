@@ -135,16 +135,30 @@ df_StudentScores
 
 9. QUESTION: How is this data frame different from a matrix?
 
-> Answer: 
+> Answer: Matrices can only contain a single class of data while data frames can contain multiple classes of data. In this data frame, logical, character, and numeric data are all stored.
 
 10. Create a function with an if/else statement. Your function should determine whether a test score is a passing grade of 50 or above (TRUE or FALSE). You will need to choose either the `if` and `else` statements or the `ifelse` statement. Hint: Use `print`, not `return`. The name of your function should be informative.
 
-11. Apply your function to the vector with test scores that you created in number 5. 
-
 ```{r}
+df_score 
+Test_Scores_Pass <- function(df_score){
+  ifelse(df_score>=50, "True", "False") 
+}
+
+print(Test_Scores_Pass(df_score))
 
 ```
 
+11. Apply your function to the vector with test scores that you created in number 5.
+```{r}
+Test_Scores_Pass_vector <- function(score){
+  ifelse(score>=50, "True", "False") 
+}
+
+print(Test_Scores_Pass(score))
+```
+
+
 12. QUESTION: Which option of `if` and `else` vs. `ifelse` worked? Why?
 
-> Answer: 
+> Answer: "Ifelse" worked for my code because conditional statement deal only with a single value, while my vector contains four values stored under the same name. If pass a vector in an if statement, it only checks the very first element and issues a warning. 
