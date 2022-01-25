@@ -1,7 +1,10 @@
 ---
-title: "Assignment 1: Introduction"
+title: 'Assignment 1: Introduction'
 author: "Gaby Antonova"
-output: pdf_document
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 geometry: margin=2.54cm
 ---
 
