@@ -23,6 +23,12 @@ Let's look into a built-in data frame from package "datasets" - cars. The data g
 ```{r cars}
 cars
 ```
+```{r testseq}
+seq(1,10,2)
+```
+```{r}
+cars
+```
 
 Note that it has 2 columns and 50 rows.
 
@@ -38,6 +44,9 @@ How would you store it on another object?
 
 ```{r}
 car_speed <- cars$speed
+car_speed
+```
+```{r}
 car_speed
 ```
 
@@ -84,7 +93,7 @@ df_opt2
 Note that when we transformed the vector in a data frame the name of the vector became the column name.
 
 ```{r}
-colnames(df)  #or simply names()
+colnames(df)  #or simply names() to show names or rename columns in a dataframe
 names(df)
 ```
 
@@ -104,13 +113,16 @@ create_df
 Some useful functions to use with data frames.
 
 ```{r}
-ncol(df)  
-nrow(df)  
+ncol(df)#number of columns  
+nrow(df)#number of rows
 length(df)  #same as ncol
-summary(df)
+summary(df)#summary statistics 
 head(df) #show the first 6 rows of df
-
+??head #for help with head
 #If you know the number of the column you want you can refer to that to access column
+
+tail(df) #last 6 rows of df
+
 df[,1]
 
 #you could also use this notation to delete columns
