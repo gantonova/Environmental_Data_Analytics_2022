@@ -1,10 +1,7 @@
 ---
-title: 'Assignment 3: Data Exploration'
-author: 'Gaby Antonova, Section #3'
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+title: "Assignment 3: Data Exploration"
+author: "Gaby Antonova, Section #3"
+output: pdf_document
 geometry: margin=2.54cm
 ---
 
@@ -35,7 +32,6 @@ Litter <- read.csv("../Data/Processed/Lab 3/NEON_NIWO_Litter_massdata_2018-08_ra
 view(Neonics)
 
 view(Litter)
-
 ```
 
 ## Learn about your system
@@ -47,6 +43,7 @@ view(Litter)
 3. The Niwot Ridge litter and woody debris dataset was collected from the National Ecological Observatory Network, which collectively includes 81 aquatic and terrestrial sites across 20 ecoclimatic domains. 32 of these sites sample forest litter and woody debris, and we will focus on the Niwot Ridge long-term ecological research (LTER) station in Colorado. Why might we be interested in studying litter and woody debris that falls to the ground in forests? Feel free to do a brief internet search if you feel you need more background information. 
 
 > Answer: Woody debris is an important part of forest ecosystems and provide ecological services like carbon sequestration, replenishing soil nutrients, and reducing erosion. Depending on the type of woody debris, it can also be a source of increased wildlife risk which would be another reason to study it. 
+
 
 4. How is litter and woody debris sampled as part of the NEON network? Read the NEON_Litterfall_UserGuide.pdf document to learn more. List three pieces of salient information about the sampling methods here: 
 
@@ -91,6 +88,7 @@ class(Neonics$Conc.1..Author.)
 
 
 
+
 ## Explore your data graphically (Neonics)
 
 9. Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year. 
@@ -105,16 +103,14 @@ ggplot(Neonics) +
   geom_freqpoly(aes(x = Publication.Year, color = Test.Location))
 ```
 
-Interpret this graph. What are the most common test locations, and do they differ over time? 
+Interpret this graph. What are the most common test locations, and do they differ over time?
 
 > Answer: In the 1990s, the most common test location was in the field natural. In the early 2000s, there was a spike in the number of studies about neonicotinoids done in the lab. Then there was a spike in natural field studies around 2009, until finally lab studies dominated in the mid-2010s. By around 2016, all types of studies regarding neonicotinoids declined, which might indicate that the bans on neonicotinoids starting in 2013 in the EU might have made new studies in the region unnecessary. 
-  
 
 11. Create a bar graph of Endpoint counts. What are the two most common end points, and how are they defined? Consult the ECOTOX_CodeAppendix for more information. 
 
 ```{r}
 ggplot(Neonics) + geom_bar(aes(x=Endpoint))
-
 ```
 
 > Answer: NOEL and LOEL are the two most common endpoints. NOEL is defines are "no-observable-effect-levela: The highest dose producing effects not significantly different from responses of controls according to author's reported statistical test." LOEL is defined as "Lowest-observable-effect-level: lowest dose producing effects that were significantly different (as reported by authors) from responses of controls."
@@ -123,17 +119,15 @@ ggplot(Neonics) + geom_bar(aes(x=Endpoint))
 ## Explore your data (Litter)
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018. 
-
 ```{r}
-view(Litter)
-install.packages("lubridate")
+class(Litter$collectDate)
 library(lubridate)
 
 date_collectDate <- ymd(Litter$collectDate)
 date_collectDate
 class(date_collectDate)
 ```
-> Answer: It was not a date initially, it was a factor.
+The data was initially factor data. 
 
 13. Using the `unique` function, determine how many plots were sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
@@ -149,11 +143,11 @@ summary(Litter$plotID)
 ```{r}
 ggplot(Litter) + geom_bar(aes(x=functionalGroup))
 ```
+```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup. 
 ```{r}
 ggplot(Litter) + geom_boxplot(aes(x=dryMass, y=functionalGroup))
-ggplot(Litter) + geom_violin(aes(x=dryMass, y=functionalGroup))
 ```
 
 ```{r}
@@ -166,4 +160,4 @@ Why is the boxplot a more effective visualization option than the violin plot in
 
 What type(s) of litter tend to have the highest biomass at these sites? 
 
-> Answer: Needles tend to have the highest biomass at these sites. 
+> Answer: Needles tend to have the highest biomass at these sites.
