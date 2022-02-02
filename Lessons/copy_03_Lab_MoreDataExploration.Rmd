@@ -131,7 +131,7 @@ Use the common functions `summary` and `sd` to obtain basic data summaries of th
 
 ```{r}
 summary(df_temperatures_C_and_F)
-sd(df_temperatures_C_and_F$low)
+sd(df_temperatures_C_and_F)
 ```
 
 ### Date objects
