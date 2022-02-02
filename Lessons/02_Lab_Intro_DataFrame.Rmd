@@ -30,6 +30,7 @@ seq(1,10,2)
 cars
 ```
 
+
 Note that it has 2 columns and 50 rows.
 
 ## Data frame columns
@@ -38,6 +39,7 @@ Suppose you want just the column speed. How would you access that data?
 
 ```{r}
 cars$speed
+
 ```
 
 How would you store it on another object?
@@ -120,10 +122,14 @@ summary(df)#summary statistics
 head(df) #show the first 6 rows of df
 ??head #for help with head
 #If you know the number of the column you want you can refer to that to access column
+<<<<<<< HEAD
 
 tail(df) #last 6 rows of df
 
 df[,1]
+=======
+df_2 <- df[1:10,1:2]
+>>>>>>> b3c7106116c07efb5453f2e1b6ba3c74dfab9fdd
 
 #you could also use this notation to delete columns
 df <- df[,-2]
