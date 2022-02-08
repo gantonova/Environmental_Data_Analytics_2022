@@ -63,8 +63,7 @@ NTL.phys.data.1999 <- filter(NTL.phys.data, year4 == 1999)
 # Exercise 2: 
 # filter NTL.phys.data for Tuesday Lake from 1990 through 1999.
 
-NTL.phys.data.Tuesday.90to99 <- filter(NTL.phys.data, year4 < 2000 & year4 > 1989 & lakeame == "Tuesday Lake")
-
+NTL.phys.data.Tuesday.90to99 <- filter(NTL.phys.data, year4 < 2000 & year4 > 1989 & lakename == "Tuesday Lake")
 
 ```
 Question: Why don't we filter using row numbers?
@@ -86,12 +85,34 @@ NTL.phys.data.processed <-
 
 #Exercise 3: Using a pipe filter NTL.phys.data for Tuesday Lake from 1990 through 1999 only for July 
 
-
+library(lubridate)
+NTL.phys.data.Tuesday.90to99.pipe <- 
+  NTL.phys.data %>%
+  filter(year4 < 2000)%>%
+  filter(year4 > 1989)%>%
+  filter(lakename == "Tuesday Lake")
+  filter(month(sampledate) == 7)
+class(NTL.phys.data$sampledate)
+#why am I getting an error?
 
 
 
 #Exercise 4: Using the data from part 3, a pipe and the summarise() function find the mean surface temperature (hints: you will need to add another filter for depth==0). Make sure you eliminate NAs before computing the means
 
+NTL.phys.data.Tuesday.90to99.mean <-
+NTL.phys.data.Tuesday.90to99.pipe %>%
+  filter(depth==0)%>%
+  filter(temperature_C !="NA")%>%
+  summarise(mean = mean(temperature_C))
+class()
+  
+#or
+
+NTL.phys.data.Tuesday.90to99.mean2 <-
+NTL.phys.data.Tuesday.90to99.pipe %>%
+  filter(depth==0)%>%
+  filter (!is.na(temperature_C))%>%
+  summarise(mean = mean(temperature_C))
   
 ```
 

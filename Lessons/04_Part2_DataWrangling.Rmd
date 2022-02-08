@@ -155,6 +155,7 @@ LitterFiles
 
 Litter <- LitterFiles %>%
   ldply(read.csv)
+
 ```
 
 We also have information about individual traps, including the location and type of landcover. Let's join these two datasets. Note that "siteID", "plotID" and "trapID" exist in both datasets, and we can join them by these conditions. Notice the dimensions of the final dataset.
