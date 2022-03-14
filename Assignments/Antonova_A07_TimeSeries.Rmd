@@ -204,7 +204,7 @@ f_month <- month(first(GaringerOzoneClean$Date))
 f_year <- year(first(GaringerOzoneClean$Date))
 f_day <- day(first(GaringerOzoneClean$Date))
 
-GaringerOzone.daily.ts <- ts(GaringerOzoneClean2,
+GaringerOzone.daily.ts <- ts(GaringerOzoneClean$Daily.Max.8.hour.Ozone.Concentration,
 start=c(f_year, f_month, f_day),
 frequency = 365)
 
@@ -212,7 +212,7 @@ frequency = 365)
 f_month <- month(first(GaringerOzone.monthly$Date))
 f_year <- year(first(GaringerOzone.monthly$Date))
 
-Garinger.monthly.ts <- ts(GaringerOzone.monthly, 
+Garinger.monthly.ts <- ts(GaringerOzone.monthly$mean_Ozone,
 start=c(f_year, f_month),
 frequency=12)
 
@@ -226,12 +226,10 @@ frequency=12)
 #11
 
 
-GaringerOzoneClean2 <- select(GaringerOzoneClean, Date, Daily.Max.8.hour.Ozone.Concentration)
-
-GaringerDailyDecomp <- stl(GaringerOzone.daily.ts[, 1],s.window = "periodic")
+GaringerDailyDecomp <- stl(GaringerOzone.daily.ts,s.window = "periodic")
 plot(GaringerDailyDecomp)
 
-GaringerMonthlyDecomp <-stl(Garinger.monthly.ts[, 1],s.window = "periodic")
+GaringerMonthlyDecomp <-stl(Garinger.monthly.ts,s.window = "periodic")
 plot(GaringerMonthlyDecomp)
 
 ```
@@ -242,16 +240,24 @@ plot(GaringerMonthlyDecomp)
 ```{r}
 #12
 
-
-
+Garinger_data_SMK <- Kendall::SeasonalMannKendall(Garinger.monthly.ts)
+summary(Garinger_data_SMK)
 ```
 
-> Answer:  
+> Answer:  The seasonal Mann-Kendall test is the most appropriate because this ozone data has seasonality as seen in the decomposed time series plot and is  non-parametric.
 
 13. Create a plot depicting mean monthly ozone concentrations over time, with both a geom_point and a geom_line layer. Edit your axis labels accordingly.
 
 ```{r}
 # 13
+#Visualization
+Garinger_data_plot <-
+ggplot(GaringerOzone.monthly, aes(x = Date, y = mean_Ozone)) +
+  geom_point() +
+  geom_line() +
+  ylab("Mean Ozone Concentration (ppm)") +
+  geom_smooth( method = lm )
+print(Garinger_data_plot)
 
 
 
@@ -259,7 +265,7 @@ plot(GaringerMonthlyDecomp)
 
 14. To accompany your graph, summarize your results in context of the research question. Include output from the statistical test in parentheses at the end of your sentence. Feel free to use multiple sentences in your interpretation.
 
-> Answer: 
+> Answer: We can reject the null hypothesis that ozone level are not changing over time at the 0.05 level. The ozone levels are changing over time (p-value= 0.0467).
 
 15. Subtract the seasonal component from the `GaringerOzone.monthly.ts`. Hint: Look at how we extracted the series components for the EnoDischarge on the lesson Rmd file.
 
