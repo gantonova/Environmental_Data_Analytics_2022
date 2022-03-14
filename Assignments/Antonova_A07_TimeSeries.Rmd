@@ -114,15 +114,22 @@ EPAAir_Data_Subset <- select(EPAAir_Data, Date, Daily.Max.8.hour.Ozone.Concentra
 6. Use a `left_join` to combine the data frames. Specify the correct order of data frames within this function so that the final dimensions are 3652 rows and 3 columns. Call your combined data frame GaringerOzone. 
 
 ```{r}
-# 3
-
-
-
-# 4
 
 # 5
+summary(EPAAir_Data$Daily.Max.8.hour.Ozone.Concentration)
+YearDays <- as.data.frame(seq(as.Date("2010/01/01"), 
+  as.Date("2019/12/31"), "days"))
+colnames(YearDays) <- c("Date")
+
+summary(YearDays)
+
 
 # 6
+
+EPAAir_Data_Subset$Date <- as.Date(EPAAir_Data_Subset$Date, format = "%m/%d/%Y")
+
+GaringerOzone <- left_join(YearDays, EPAAir_Data_Subset, by = c("Date"))
+
 
 ```
 
@@ -133,9 +140,17 @@ EPAAir_Data_Subset <- select(EPAAir_Data, Date, Daily.Max.8.hour.Ozone.Concentra
 ```{r}
 #7
 
+GaringerOzonePlot <- ggplot(GaringerOzone, aes(Date, Daily.Max.8.hour.Ozone.Concentration)) +
+geom_line()+
+ylab("Ozone Concentration (ppm)")+
+geom_smooth( method = lm )
+
+print(GaringerOzonePlot)
+
+
 ```
 
->Answer: 
+>Answer: No, the plot does not suggest there is a trend or change in ozone overtime, however, there is a lot of variation in the data and it is unclear if it is seasonal, random, etc. so it is hard to tell, based on this plot. 
 
 ## Time Series Analysis
 
@@ -146,15 +161,36 @@ Study question: Have ozone concentrations changed over the 2010s at this station
 ```{r}
 #8
 
+
+summary(GaringerOzone$Daily.Max.8.hour.Ozone.Concentration)
+
+GaringerOzoneClean <- 
+  GaringerOzone %>% 
+  mutate( Daily.Max.8.hour.Ozone.Concentration = zoo::na.approx(Daily.Max.8.hour.Ozone.Concentration) )
+
+summary(GaringerOzoneClean$Daily.Max.8.hour.Ozone.Concentration)
+
 ```
 
-> Answer:  
+> Answer: We didn't use piecewise constant or spline interpolation because we can see that there is variation 
 
 
 9. Create a new data frame called `GaringerOzone.monthly` that contains aggregated data: mean ozone concentrations for each month. In your pipe, you will need to first add columns for year and month to form the groupings. In a separate line of code, create a new Date column with each month-year combination being set as the first day of the month (this is for graphing purposes only)
 
 ```{r}
 #9
+
+library(lubridate)
+GaringerOzone.monthly <- GaringerOzoneClean %>%
+mutate(Month =month(Date)) %>%
+mutate(Year =year(Date)) %>%
+mutate (Date = my(paste0(Month, "-", Year))) %>%
+dplyr::group_by(Date, Month, Year) %>%
+dplyr::summarise(mean_Ozone = mean(Daily.Max.8.hour.Ozone.Concentration)) %>%
+select(mean_Ozone, Date)
+
+
+
 
 ```
 
@@ -163,6 +199,22 @@ Study question: Have ozone concentrations changed over the 2010s at this station
 
 ```{r}
 #10
+
+f_month <- month(first(GaringerOzoneClean$Date))
+f_year <- year(first(GaringerOzoneClean$Date))
+f_day <- day(first(GaringerOzoneClean$Date))
+
+GaringerOzone.daily.ts <- ts(GaringerOzoneClean2,
+start=c(f_year, f_month, f_day),
+frequency = 365)
+
+
+f_month <- month(first(GaringerOzone.monthly$Date))
+f_year <- year(first(GaringerOzone.monthly$Date))
+
+Garinger.monthly.ts <- ts(GaringerOzone.monthly, 
+start=c(f_year, f_month),
+frequency=12)
 
 
 ```
@@ -173,6 +225,14 @@ Study question: Have ozone concentrations changed over the 2010s at this station
 ```{r}
 #11
 
+
+GaringerOzoneClean2 <- select(GaringerOzoneClean, Date, Daily.Max.8.hour.Ozone.Concentration)
+
+GaringerDailyDecomp <- stl(GaringerOzone.daily.ts[, 1],s.window = "periodic")
+plot(GaringerDailyDecomp)
+
+GaringerMonthlyDecomp <-stl(Garinger.monthly.ts[, 1],s.window = "periodic")
+plot(GaringerMonthlyDecomp)
 
 ```
 
