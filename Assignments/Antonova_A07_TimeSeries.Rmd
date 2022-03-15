@@ -49,40 +49,42 @@ theme_set(mytheme)
 
 ```{r, message = FALSE}
 #2
-EPAair_O3_GaringerNC2010_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2010_raw.csv")
+
+EPAair_O3_GaringerNC2010_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2010_raw.csv")
+
+
+EPAair_O3_GaringerNC2011_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2011_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2011_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2011_raw.csv")
+EPAair_O3_GaringerNC2012_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2012_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2012_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2012_raw.csv")
+EPAair_O3_GaringerNC2013_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2013_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2013_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2013_raw.csv")
+EPAair_O3_GaringerNC2014_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2014_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2014_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2014_raw.csv")
+EPAair_O3_GaringerNC2015_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2015_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2015_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2015_raw.csv")
+EPAair_O3_GaringerNC2016_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2016_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2016_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2016_raw.csv")
+EPAair_O3_GaringerNC2017_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2017_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2017_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2017_raw.csv")
+EPAair_O3_GaringerNC2018_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2018_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
-EPAair_O3_GaringerNC2018_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2018_raw.csv")
-View(EPAair_O3_GaringerNC2010_raw)
-
-EPAair_O3_GaringerNC2019_raw <- read_csv("Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2019_raw.csv")
+EPAair_O3_GaringerNC2019_raw <- read_csv("../Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2019_raw.csv")
 View(EPAair_O3_GaringerNC2010_raw)
 
 
 library(dplyr)
 
-EPAAir_Data <- rbind(EPAair_O3_GaringerNC2010_raw, EPAair_O3_GaringerNC2011_raw, EPAair_O3_GaringerNC2012_raw, EPAair_O3_GaringerNC2013_raw, EPAair_O3_GaringerNC2014_raw, EPAair_O3_GaringerNC2015_raw, EPAair_O3_GaringerNC2016_raw, EPAair_O3_GaringerNC2017_raw, EPAair_O3_GaringerNC2018_raw, EPAair_O3_GaringerNC2019_raw)
+EPAAir_Data <- rbind(EPAair_O3_GaringerNC2010_raw, 
+EPAair_O3_GaringerNC2011_raw, EPAair_O3_GaringerNC2012_raw, EPAair_O3_GaringerNC2013_raw, EPAair_O3_GaringerNC2014_raw, EPAair_O3_GaringerNC2015_raw, EPAair_O3_GaringerNC2016_raw, EPAair_O3_GaringerNC2017_raw, EPAair_O3_GaringerNC2018_raw, EPAair_O3_GaringerNC2019_raw)
 
 ```
 
@@ -101,7 +103,8 @@ EPAAir_Data$Date <- as.Date(EPAAir_Data$Date, format = "%m/%d/%Y")
 ```{r}
 
 
-names(EPAAir_Data)<-str_replace_all(names(EPAAir_Data), c(" " = "." , "-" = "." ))
+names(EPAAir_Data)<-str_replace_all(names(EPAAir_Data),
+c(" " = "." , "-" = "." ))
 
 EPAAir_Data_Subset <- select(EPAAir_Data, Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
 
@@ -126,9 +129,11 @@ summary(YearDays)
 
 # 6
 
-EPAAir_Data_Subset$Date <- as.Date(EPAAir_Data_Subset$Date, format = "%m/%d/%Y")
+EPAAir_Data_Subset$Date <- as.Date(EPAAir_Data_Subset$Date, 
+format = "%m/%d/%Y")
 
-GaringerOzone <- left_join(YearDays, EPAAir_Data_Subset, by = c("Date"))
+GaringerOzone <- left_join(YearDays, EPAAir_Data_Subset, 
+by = c("Date"))
 
 
 ```
@@ -172,7 +177,7 @@ summary(GaringerOzoneClean$Daily.Max.8.hour.Ozone.Concentration)
 
 ```
 
-> Answer: We didn't use piecewise constant or spline interpolation because we can see that there is variation 
+> Answer: We used the linear interpolation because the intervals of missing data are relatively short. We didn't use piecewise constant or spline interpolation because we can see that there is variation because it makes more sense to take the average of adjacent observations rather than take the value of the nearest points since there is significant seasonality and the data is not constant. The data is also slowly varying - there aren't significant jumps so the spline interpolation would not be appropriate. 
 
 
 9. Create a new data frame called `GaringerOzone.monthly` that contains aggregated data: mean ozone concentrations for each month. In your pipe, you will need to first add columns for year and month to form the groupings. In a separate line of code, create a new Date column with each month-year combination being set as the first day of the month (this is for graphing purposes only)
@@ -260,12 +265,11 @@ ggplot(GaringerOzone.monthly, aes(x = Date, y = mean_Ozone)) +
 print(Garinger_data_plot)
 
 
-
 ```
 
 14. To accompany your graph, summarize your results in context of the research question. Include output from the statistical test in parentheses at the end of your sentence. Feel free to use multiple sentences in your interpretation.
 
-> Answer: We can reject the null hypothesis that ozone level are not changing over time at the 0.05 level. The ozone levels are changing over time (p-value= 0.0467).
+> Answer: We can reject the null hypothesis that the mean ozone concentration  at Garinger High School are not changing over time at the 0.05 level. The mean ozone concentration is changing over time at Garinger High School (p-value= 0.0467). Based on the plot, the mean ozone concentration appears to be decreasing. 
 
 15. Subtract the seasonal component from the `GaringerOzone.monthly.ts`. Hint: Look at how we extracted the series components for the EnoDischarge on the lesson Rmd file.
 
@@ -274,8 +278,28 @@ print(Garinger_data_plot)
 ```{r}
 #15
 
+Garinger.monthly_Components <- as.data.frame(GaringerMonthlyDecomp$time.series[,1:3])
+
+
+Garinger.monthly_Components <- mutate(Garinger.monthly_Components,
+        Observed = GaringerOzone.monthly$mean_Ozone,     
+        Date = GaringerOzone.monthly$Date)
+        
+        
+Garinger.monthly_Components <- select(Garinger.monthly_Components, 
+trend, remainder, Observed, Date)
+
+Garinger.monthly.trend.ts <- ts(Garinger.monthly_Components,
+start=c(f_year, f_month),
+frequency=12)
+
+
+
 #16
+
+Garinger_data_trend_SMK <- Kendall::MannKendall(Garinger.monthly.trend.ts)
+summary(Garinger_data_trend_SMK)
 
 ```
 
-> Answer: 
+> Answer: When the seasonality is subtracted, the p-value decreases to 2.22e-16 meaning that the seasonality was masking some of the variation in mean ozone over time. We still reject the null hypothesis that mean ozone concentration are not changing over time at Garinger High School, but at the 0.01 level. 
