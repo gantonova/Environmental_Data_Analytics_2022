@@ -87,7 +87,7 @@ colnames(NWIS_SiteInfo_NE)
 ```
 
 9. What columns in the dataset contain the x and y coordinate values, respectively?  
-> ANSWER: Column dec_lat_va contains the x coordinate values and column dec_long_va contains the y coordinate values. 
+> ANSWER: Column "dec_lat_va" contains the x coordinate values and column "dec_long_va" contains the y coordinate values. 
 > 
 
 
@@ -112,7 +112,7 @@ colnames(NWIS_SiteInfo_NE.sf)
 
 12. What new field(s) appear in the sf dataframe created? What field(s), if any, disappeared?
 
->ANSWER: 
+>ANSWER: "Dec_long_va" and "dec_lat_va" disappeared and were replaced by a new column, "geometry."
 >
 
 
@@ -126,8 +126,15 @@ colnames(NWIS_SiteInfo_NE.sf)
 ```{r Plot the spatial features}
 #13. Plot the gage locations atop the county features
 
-
+gage_county_plot <- ggplot() + 
+  geom_sf(data=Nebraska_streams.sf, fill='grey')+
+  geom_sf(data=NWIS_SiteInfo_NE.sf, color='blue')+
+  labs(title="NWIS Gage Locations in Nebraska")+
+  labs(subtitle="Gaby Antonova", )
+print(gage_county_plot)
+  
 ```
+
 
 
 ### Read in the gage height data and join the site location data to it.
